@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>하루툴 | 계산기 · 랜덤 · 직장인 · 미니게임</title>
+  <meta name="description" content="월급루팡 계산기, 퍼센트, 부가세, 디데이, 랜덤 숫자, 룰렛, 팀 나누기, 점심메뉴, 반응속도 테스트를 한곳에서 무료로 사용하세요.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:title" content="하루툴 | 매일 쓰는 무료 웹도구">
+  <meta property="og:description" content="계산기, 랜덤 도구, 직장인 도구, 미니게임을 한곳에서.">
+  <meta property="og:type" content="website">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"하루툴",
+    "description":"계산기, 랜덤 도구, 직장인 도구, 미니게임 모음",
+    "inLanguage":"ko-KR"
+  }
+  </script>
+  <style>
+    :root{
+      --bg:#f6f7f9;--card:#fff;--text:#17191d;--muted:#6b7280;--line:#e5e7eb;
+      --accent:#111827;--soft:#eef2ff;--good:#166534;--danger:#b91c1c;
+      --radius:20px;--shadow:0 8px 30px rgba(17,24,39,.06)
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text)}
+    button,input,select,textarea{font:inherit}
+    a{color:inherit;text-decoration:none}
+    .wrap{width:min(1120px,calc(100% - 32px));margin:auto}
+    header{position:sticky;top:0;z-index:20;background:rgba(246,247,249,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(229,231,235,.8)}
+    .nav{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:16px}
+    .brand{font-size:21px;font-weight:900;letter-spacing:-.7px}
+    .navlinks{display:flex;gap:18px;font-size:14px;color:var(--muted)}
+    .hero{padding:72px 0 36px;text-align:center}
+    .hero h1{margin:0;font-size:clamp(34px,6vw,64px);letter-spacing:-2.4px;line-height:1.05}
+    .hero p{margin:18px auto 0;max-width:650px;color:var(--muted);font-size:17px;line-height:1.7}
+    .chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:24px}
+    .chip{border:1px solid var(--line);background:#fff;padding:9px 13px;border-radius:999px;font-size:13px}
+    .ad{margin:26px auto 10px;border:1px dashed #cbd5e1;background:#fff;border-radius:16px;min-height:90px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:13px}
+    section{scroll-margin-top:80px}
+    .section-title{margin:52px 0 18px;display:flex;align-items:end;justify-content:space-between;gap:12px}
+    .section-title h2{margin:0;font-size:26px;letter-spacing:-1px}
+    .section-title span{font-size:13px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+    .card h3{margin:0 0 6px;font-size:18px;letter-spacing:-.4px}
+    .card p{margin:0 0 16px;color:var(--muted);font-size:13px;line-height:1.55}
+    .tool{display:grid;gap:10px}
+    label{font-size:12px;color:var(--muted)}
+    input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px 13px;outline:none}
+    input:focus,select:focus,textarea:focus{border-color:#9ca3af;box-shadow:0 0 0 3px rgba(156,163,175,.12)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .btn{border:0;border-radius:12px;padding:12px 14px;background:var(--accent);color:#fff;font-weight:800;cursor:pointer}
+    .btn.secondary{background:#eef2f7;color:#111827}
+    .result{margin-top:4px;padding:14px;border-radius:14px;background:#f8fafc;border:1px solid var(--line);min-height:52px;line-height:1.55}
+    .big{font-size:25px;font-weight:900;letter-spacing:-.8px}
+    .small{font-size:12px;color:var(--muted)}
+    .roulette-result{text-align:center;font-size:24px;font-weight:900;padding:18px;border-radius:16px;background:var(--soft)}
+    .reaction-box{height:170px;border-radius:16px;display:flex;align-items:center;justify-content:center;text-align:center;background:#e5e7eb;cursor:pointer;user-select:none;padding:20px;font-weight:900}
+    .reaction-box.wait{background:#fee2e2;color:#991b1b}.reaction-box.go{background:#dcfce7;color:#166534}
+    .info{margin-top:54px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .info .card p{margin-bottom:8px}
+    footer{padding:44px 0 70px;color:var(--muted);font-size:13px}
+    .footer-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .note{font-size:11px;color:#9ca3af;line-height:1.6}
+    @media(max-width:900px){.grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:650px){
+      .navlinks{display:none}.hero{padding-top:48px}.grid,.info{grid-template-columns:1fr}
+      .row{grid-template-columns:1fr}.section-title{align-items:start;flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#">하루툴</a>
+    <nav class="navlinks">
+      <a href="#work">직장인</a><a href="#calc">계산</a><a href="#random">랜덤</a><a href="#game">게임</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>필요할 때 바로 쓰는<br>무료 웹도구</h1>
+    <p>설치 없이 바로 사용하세요. 계산기, 랜덤 선택, 직장인 도구와 가벼운 미니게임을 한곳에 모았습니다.</p>
+    <div class="chips">
+      <a class="chip" href="#salary">💸 월급루팡</a>
+      <a class="chip" href="#roulette">🎡 룰렛</a>
+      <a class="chip" href="#teams">👥 팀 나누기</a>
+      <a class="chip" href="#reaction">⚡ 반응속도</a>
+    </div>
+  </section>
+
+  <div class="ad">광고 영역 · AdSense 승인 후 삽입</div>
+
+  <section id="work">
+    <div class="section-title"><h2>직장인 도구</h2><span>회사에서 은근 자주 필요한 것들</span></div>
+    <div class="grid">
+      <article class="card" id="salary">
+        <h3>💸 월급루팡 계산기</h3>
+        <p>오늘 출근 후 지금까지 번 금액을 단순 추정합니다.</p>
+        <div class="tool">
+          <label>연봉(세전, 원)</label><input id="annualSalary" type="number" value="45000000" min="0" step="100000">
+          <div class="row">
+            <div><label>출근</label><input id="workStart" type="time" value="09:00"></div>
+            <div><label>퇴근</label><input id="workEnd" type="time" value="18:00"></div>
+          </div>
+          <label>점심/휴게시간(분)</label><input id="breakMin" type="number" value="60" min="0">
+          <div class="result" id="salaryResult"></div>
+          <div class="note">연 260근무일을 기준으로 단순 추정한 세전 금액입니다. 실제 급여·세금 계산과 다를 수 있습니다.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>🔢 글자수 세기</h3>
+        <p>자소서·문자·게시물 작성 전에 빠르게 확인하세요.</p>
+        <div class="tool">
+          <textarea id="textCounter" rows="8" placeholder="여기에 내용을 입력하세요."></textarea>
+          <div class="result"><span class="big" id="charCount">0</span>자 · 공백 제외 <b id="charNoSpace">0</b>자 · <b id="byteCount">0</b> bytes</div>
+        </div>
+      </article>
+
+      <article class="card" id="dday">
+        <h3>📅 D-Day 계산기</h3>
+        <p>기념일, 시험, 마감일까지 남은 날짜를 계산합니다.</p>
+        <div class="tool">
+          <label>목표 날짜</label><input id="targetDate" type="date">
+          <button class="btn" id="ddayBtn">계산하기</button>
+          <div class="result" id="ddayResult">날짜를 선택하세요.</div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="calc">
+    <div class="section-title"><h2>계산 도구</h2><span>검색해서 다시 찾기 귀찮은 계산들</span></div>
+    <div class="grid">
+      <article class="card">
+        <h3>％ 퍼센트 계산기</h3><p>전체 중 일부가 몇 %인지 바로 계산합니다.</p>
+        <div class="tool">
+          <div class="row"><input id="part" type="number" placeholder="일부 값"><input id="whole" type="number" placeholder="전체 값"></div>
+          <button class="btn" id="percentBtn">계산하기</button>
+          <div class="result" id="percentResult">예: 25 ÷ 200 = 12.5%</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>🧾 부가세 계산기</h3><p>공급가액과 부가세 10%를 빠르게 나눕니다.</p>
+        <div class="tool">
+          <label>합계금액(VAT 포함)</label><input id="vatTotal" type="number" placeholder="110000">
+          <button class="btn" id="vatBtn">계산하기</button>
+          <div class="result" id="vatResult">공급가액과 부가세가 표시됩니다.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>🧮 증감률 계산기</h3><p>이전 값에서 현재 값으로 얼마나 변했는지 계산합니다.</p>
+        <div class="tool">
+          <div class="row"><input id="oldVal" type="number" placeholder="이전 값"><input id="newVal" type="number" placeholder="현재 값"></div>
+          <button class="btn" id="changeBtn">계산하기</button>
+          <div class="result" id="changeResult">증가율 또는 감소율이 표시됩니다.</div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <div class="ad">광고 영역 · 콘텐츠 중간</div>
+
+  <section id="random">
+    <div class="section-title"><h2>랜덤 도구</h2><span>결정하기 귀찮을 때</span></div>
+    <div class="grid">
+      <article class="card" id="roulette">
+        <h3>🎡 룰렛 / 랜덤 선택</h3>
+        <p>쉼표나 줄바꿈으로 선택지를 입력하세요.</p>
+        <div class="tool">
+          <textarea id="rouletteInput" rows="5">짜장면, 짬뽕, 돈까스, 김치찌개</textarea>
+          <button class="btn" id="rouletteBtn">돌리기</button>
+          <div class="roulette-result" id="rouletteResult">?</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>🎲 랜덤 숫자 뽑기</h3><p>범위 안에서 중복 없이 숫자를 뽑습니다.</p>
+        <div class="tool">
+          <div class="row"><input id="randMin" type="number" value="1"><input id="randMax" type="number" value="45"></div>
+          <label>몇 개?</label><input id="randCount" type="number" value="6" min="1">
+          <button class="btn" id="randBtn">뽑기</button>
+          <div class="result big" id="randResult">-</div>
+        </div>
+      </article>
+
+      <article class="card" id="teams">
+        <h3>👥 랜덤 팀 나누기</h3><p>이름을 입력하고 원하는 팀 수로 섞어 나눕니다.</p>
+        <div class="tool">
+          <textarea id="teamNames" rows="5" placeholder="민수, 지영, 철수, 수빈"></textarea>
+          <label>팀 수</label><input id="teamCount" type="number" value="2" min="2">
+          <button class="btn" id="teamBtn">팀 나누기</button>
+          <div class="result" id="teamResult">결과가 여기에 표시됩니다.</div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="game">
+    <div class="section-title"><h2>미니게임</h2><span>잠깐 쉬어가기</span></div>
+    <div class="grid">
+      <article class="card" id="reaction">
+        <h3>⚡ 반응속도 테스트</h3>
+        <p>시작을 누른 뒤 초록색이 되면 최대한 빨리 누르세요.</p>
+        <div class="tool">
+          <button class="btn" id="reactionStart">테스트 시작</button>
+          <div class="reaction-box" id="reactionBox">시작 버튼을 눌러주세요.</div>
+          <div class="result" id="reactionResult">기록이 여기에 표시됩니다.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>🍱 오늘 점심 뭐 먹지?</h3><p>결정 장애용 초간단 점심메뉴 추천기.</p>
+        <div class="tool">
+          <button class="btn" id="lunchBtn">메뉴 추천</button>
+          <div class="roulette-result" id="lunchResult">🍽️</div>
+          <button class="btn secondary" id="lunchAgain">한 번 더</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>🪙 앞면 / 뒷면</h3><p>둘 중 하나만 정하면 될 때 가장 빠른 방법.</p>
+        <div class="tool">
+          <button class="btn" id="coinBtn">동전 던지기</button>
+          <div class="roulette-result" id="coinResult">🪙</div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="info">
+    <article class="card" id="about">
+      <h3>하루툴 소개</h3>
+      <p>하루툴은 설치나 회원가입 없이 바로 사용할 수 있는 간단한 무료 웹도구 모음입니다.</p>
+      <p>사용자 입력값은 이 페이지에서 계산에만 사용하며 서버로 전송하지 않습니다.</p>
+    </article>
+    <article class="card" id="privacy">
+      <h3>개인정보 처리 안내</h3>
+      <p>현재 하루툴은 자체적으로 개인정보를 수집하거나 저장하지 않습니다.</p>
+      <p>향후 광고·통계 서비스를 추가하면 해당 서비스의 쿠키 및 개인정보 처리 내용을 이 영역에 고지합니다.</p>
+    </article>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div><b>하루툴</b><br>매일 쓰는 무료 웹도구</div>
+    <div>© 2026 하루툴 · <a href="#about">소개</a> · <a href="#privacy">개인정보</a></div>
+  </div>
+</footer>
+
+<script>
+  const $ = (id)=>document.getElementById(id);
+  const fmt = n => Math.round(n).toLocaleString("ko-KR");
+
+  function updateSalary(){
+    const annual=+$("annualSalary").value||0, start=$("workStart").value, end=$("workEnd").value, br=+$("breakMin").value||0;
+    if(!start||!end||annual<=0){$("salaryResult").innerHTML="값을 입력하세요.";return}
+    const [sh,sm]=start.split(":").map(Number), [eh,em]=end.split(":").map(Number);
+    const startM=sh*60+sm, endM=eh*60+em, paid=Math.max(1,endM-startM-br);
+    const now=new Date(), nowM=now.getHours()*60+now.getMinutes()+now.getSeconds()/60;
+    const elapsed=Math.min(Math.max(nowM-startM,0),endM-startM);
+    const paidElapsed=Math.max(0, elapsed - Math.min(br, Math.max(0, elapsed-(paid/2))));
+    const dayPay=annual/260, perMin=dayPay/paid, earned=Math.min(dayPay,paidElapsed*perMin);
+    const left=Math.max(0,endM-nowM);
+    let status=nowM<startM?"아직 출근 전":nowM>=endM?"오늘 근무 종료":"퇴근까지 약 "+Math.ceil(left/60)+"시간";
+    $("salaryResult").innerHTML=`<div class="big">${fmt(earned)}원</div><div class="small">${status} · 1근무일 세전 약 ${fmt(dayPay)}원</div>`;
+  }
+  ["annualSalary","workStart","workEnd","breakMin"].forEach(id=>$(id).addEventListener("input",updateSalary));
+  updateSalary(); setInterval(updateSalary,1000);
+
+  $("textCounter").addEventListener("input",e=>{
+    const t=e.target.value; $("charCount").textContent=t.length; $("charNoSpace").textContent=t.replace(/\s/g,"").length;
+    $("byteCount").textContent=new TextEncoder().encode(t).length;
+  });
+
+  $("targetDate").value=new Date(Date.now()+86400000*30).toISOString().slice(0,10);
+  $("ddayBtn").onclick=()=>{
+    const t=new Date($("targetDate").value+"T00:00:00"), now=new Date(); now.setHours(0,0,0,0);
+    const d=Math.round((t-now)/86400000);
+    $("ddayResult").innerHTML=d===0?'<span class="big">D-Day</span>':`<span class="big">${d>0?"D-"+d:"D+"+Math.abs(d)}</span>`;
+  };
+
+  $("percentBtn").onclick=()=>{
+    const p=+$("part").value,w=+$("whole").value;
+    $("percentResult").innerHTML=!w?"전체 값은 0이 될 수 없습니다.":`<span class="big">${(p/w*100).toLocaleString("ko-KR",{maximumFractionDigits:4})}%</span>`;
+  };
+
+  $("vatBtn").onclick=()=>{
+    const total=+$("vatTotal").value;
+    if(!total){$("vatResult").textContent="금액을 입력하세요.";return}
+    const supply=total/1.1, vat=total-supply;
+    $("vatResult").innerHTML=`공급가액 <b>${fmt(supply)}원</b><br>부가세 <b>${fmt(vat)}원</b>`;
+  };
+
+  $("changeBtn").onclick=()=>{
+    const o=+$("oldVal").value,n=+$("newVal").value;
+    if(!o){$("changeResult").textContent="이전 값은 0이 될 수 없습니다.";return}
+    const r=(n-o)/o*100;
+    $("changeResult").innerHTML=`<span class="big">${r>=0?"+":""}${r.toLocaleString("ko-KR",{maximumFractionDigits:2})}%</span>`;
+  };
+
+  function optionsFrom(text){return text.split(/[,\n]/).map(v=>v.trim()).filter(Boolean)}
+  $("rouletteBtn").onclick=()=>{
+    const a=optionsFrom($("rouletteInput").value); if(!a.length)return;
+    let ticks=0; const el=$("rouletteResult");
+    const timer=setInterval(()=>{el.textContent=a[Math.floor(Math.random()*a.length)]; if(++ticks>14){clearInterval(timer);}},70);
+  };
+
+  $("randBtn").onclick=()=>{
+    let min=Math.ceil(+$("randMin").value),max=Math.floor(+$("randMax").value),count=Math.floor(+$("randCount").value);
+    if(min>max)[min,max]=[max,min];
+    const pool=Array.from({length:max-min+1},(_,i)=>i+min);
+    count=Math.min(Math.max(1,count),pool.length);
+    for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
+    $("randResult").textContent=pool.slice(0,count).sort((a,b)=>a-b).join(", ");
+  };
+
+  $("teamBtn").onclick=()=>{
+    const names=optionsFrom($("teamNames").value), c=Math.max(2,Math.floor(+$("teamCount").value||2));
+    if(!names.length){$("teamResult").textContent="이름을 입력하세요.";return}
+    for(let i=names.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[names[i],names[j]]=[names[j],names[i]]}
+    const teams=Array.from({length:c},()=>[]); names.forEach((n,i)=>teams[i%c].push(n));
+    $("teamResult").innerHTML=teams.map((t,i)=>`<b>${i+1}팀</b> · ${t.join(", ")||"-"}`).join("<br>");
+  };
+
+  const box=$("reactionBox"); let reactionTimer=null, goAt=0, reactionState="idle";
+  $("reactionStart").onclick=()=>{
+    clearTimeout(reactionTimer); reactionState="wait"; box.className="reaction-box wait"; box.textContent="기다리세요…";
+    $("reactionResult").textContent="초록색이 되기 전에 누르면 실패!";
+    reactionTimer=setTimeout(()=>{reactionState="go";goAt=performance.now();box.className="reaction-box go";box.textContent="지금! 클릭!";},1200+Math.random()*2800);
+  };
+  box.onclick=()=>{
+    if(reactionState==="wait"){clearTimeout(reactionTimer);reactionState="idle";box.className="reaction-box";box.textContent="너무 빨랐어요. 다시 시작하세요."; $("reactionResult").textContent="성급함 😅";}
+    else if(reactionState==="go"){const ms=Math.round(performance.now()-goAt);reactionState="idle";box.className="reaction-box";box.textContent=ms+"ms";$("reactionResult").innerHTML=`반응속도 <span class="big">${ms}ms</span>`;}
+  };
+
+  const lunches=["김치찌개","제육볶음","돈까스","국밥","초밥","쌀국수","비빔밥","햄버거","파스타","순두부찌개","냉면","칼국수","샐러드","마라탕","짜장면"];
+  function pickLunch(){ $("lunchResult").textContent=lunches[Math.floor(Math.random()*lunches.length)] }
+  $("lunchBtn").onclick=pickLunch; $("lunchAgain").onclick=pickLunch;
+  $("coinBtn").onclick=()=>{$("coinResult").textContent=Math.random()<.5?"앞면":"뒷면"};
+
+  $("ddayBtn").click();
+</script>
+</body>
+</html>
